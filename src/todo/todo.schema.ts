@@ -9,6 +9,9 @@ export class ToDo extends Document {
   @Prop({ required: true })
   task: string;
 
+  @Prop({ required: true })
+  tag: string;
+
   @Prop({ required: true, default: false })
   completed: boolean;
 }

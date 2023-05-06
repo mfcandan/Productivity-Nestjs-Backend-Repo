@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { ToDoService } from './todo.service';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { CreateToDoDto, UpdateToDoDto } from './todo.dto';
 
 @Controller('todo')
 @UseGuards(AuthGuard)
@@ -18,9 +19,9 @@ export class ToDoController {
   constructor(private toDoService: ToDoService) {}
 
   @Post()
-  async create(@Req() req, @Body('task') task: string) {
+  async create(@Req() req, @Body() createToDoDto: CreateToDoDto) {
     const userId = req.user.sub;
-    return this.toDoService.create(userId, task);
+    return this.toDoService.create(userId, createToDoDto);
   }
 
   @Get()
@@ -39,11 +40,10 @@ export class ToDoController {
   async update(
     @Req() req,
     @Param('id') id: string,
-    @Body('task') task: string,
-    @Body('completed') completed: boolean,
+    @Body() updateToDoDto: UpdateToDoDto,
   ) {
     const userId = req.user.sub;
-    return this.toDoService.update(userId, id, task, completed);
+    return this.toDoService.update(userId, id, updateToDoDto);
   }
 
   @Delete(':id')
