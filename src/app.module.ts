@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ToDoModule } from './todo/todo.module';
 import config from './config';
 
 @Module({
@@ -12,6 +13,7 @@ import config from './config';
       useUnifiedTopology: true,
     }),
     AuthModule,
+    ToDoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
