@@ -7,10 +7,13 @@ import {
   Post,
   Put,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import { ToDoService } from './todo.service';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('todo')
+@UseGuards(AuthGuard)
 export class ToDoController {
   constructor(private toDoService: ToDoService) {}
 
