@@ -11,15 +11,18 @@ export class AuthController {
     @Body('name') name: string,
     @Body('password') password: string,
   ): Promise<any> {
-    try {
-      const user = await this.authService.register(email, name, password);
+    const jwt = await this.authService.register(email, name, password);
+    if (jwt) {
       return {
         success: true,
         message: 'Kullanıcı başarıyla kaydedildi.',
-        user,
+        ...jwt,
       };
-    } catch (error) {
-      return { success: false, message: 'Kullanıcı kaydı başarısız oldu.' };
+    } else {
+      return {
+        success: false,
+        message: 'Kullanıcı kaydı başarısız oldu. E-posta zaten kullanılıyor.',
+      };
     }
   }
 
