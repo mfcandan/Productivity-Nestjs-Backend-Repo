@@ -15,6 +15,7 @@ export class ToDoService {
       userId,
       task: createToDoDto.task,
       tag: createToDoDto.tag,
+      image: createToDoDto.image,
       completed: false,
     });
     return newToDo.save();
@@ -35,6 +36,9 @@ export class ToDoService {
     }
     if (updateToDoDto.tag) {
       toDo.tag = updateToDoDto.tag;
+    }
+    if (updateToDoDto.image) {
+      toDo.image = updateToDoDto.image;
     }
     if (updateToDoDto.completed !== undefined) {
       toDo.completed = updateToDoDto.completed;

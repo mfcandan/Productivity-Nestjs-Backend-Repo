@@ -12,6 +12,9 @@ export class ToDo extends Document {
   @Prop({ required: true })
   tag: string;
 
+  @Prop({ required: false })
+  image: string;
+
   @Prop({ required: true, default: false })
   completed: boolean;
 }
