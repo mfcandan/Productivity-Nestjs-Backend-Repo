@@ -13,7 +13,7 @@ export class AuthService {
     email: string,
     name: string,
     password: string,
-  ): Promise<{ access_token: string } | null> {
+  ): Promise<{ access_token: string; email: string; name: string } | null> {
     const existingUser = await this.userModel.findOne({ email }).exec();
     if (existingUser) {
       return null;
@@ -22,23 +22,35 @@ export class AuthService {
     const newUser = new this.userModel({ email, name, password });
     await newUser.save();
 
-    const payload = { email: newUser.email, sub: newUser._id };
+    const payload = {
+      email: newUser.email,
+      sub: newUser._id,
+      name: newUser.name,
+    };
     return {
       access_token: jwt.sign(payload, config.jwtSecretKey, { expiresIn: '1h' }),
+      email: newUser.email,
+      name: newUser.name,
     };
   }
 
   async login(
     email: string,
     password: string,
-  ): Promise<{ access_token: string } | null> {
+  ): Promise<{ access_token: string; email: string; name: string } | null> {
     const user = await this.userModel.findOne({ email, password }).exec();
     if (!user) {
       return null;
     }
-    const payload = { email: user.email, sub: user._id };
+    const payload = {
+      email: user.email,
+      sub: user._id,
+      name: user.name,
+    };
     return {
       access_token: jwt.sign(payload, config.jwtSecretKey, { expiresIn: '1h' }),
+      email: user.email,
+      name: user.name,
     };
   }
 }
